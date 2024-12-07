@@ -1,0 +1,33 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch as necessary
+
+jobs:
+  deploy:
+    runs-on: debian-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t editor .
+        docker save editor > editor.tar
+
+    - name: Deploy to VPS
+      env:
+        VPS_HOST: ${{ secrets.VPS_HOST }}
+        VPS_USER: ${{ secrets.VPS_USER }}
+        VPS_KEY: ${{ secrets.VPS_KEY }}
+      run: |
+        scp editor.tar $VPS_USER@$VPS_HOST:/home/$VPS_USER/editor/
+        ssh -i $VPS_KEY $VPS_USER@$VPS_HOST "
+          cd ~/editor &&
+          docker load < editor.tar &&
+          docker-compose down &&
+          docker-compose up -d
+        "

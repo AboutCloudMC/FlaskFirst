@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-icon active" title="Editor">
+            <i class="fas fa-edit"></i>
+        </div>
+        <div class="sidebar-icon" title="Files">
+            <i class="fas fa-folder"></i>
+        </div>
+        <div class="sidebar-icon" title="Settings">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+    <div class="file-list"></div>
+    <div class="main-container">
+        <div class="header">
+            <h1>Markdown Editor</h1>
+            <span id="current-file">Untitled</span>
+        </div>
+        <div class="toolbar">
+            <button class="toolbar-button" id="bold-btn" title="Bold">
+                <i class="fas fa-bold"></i>
+            </button>
+            <button class="toolbar-button" id="italic-btn" title="Italic">
+                <i class="fas fa-italic"></i>
+            </button>
+            <button class="toolbar-button" id="link-btn" title="Add Link">
+                <i class="fas fa-link"></i>
+            </button>
+            <button class="toolbar-button" id="code-btn" title="Code Block">
+                <i class="fas fa-code"></i>
+            </button>
+            <button class="toolbar-button" id="list-btn" title="Bullet List">
+                <i class="fas fa-list-ul"></i>
+            </button>
+            <button class="toolbar-button" id="save-btn" title="Save">
+                <i class="fas fa-save"></i>
+            </button>
+        </div>
+        <div class="container">
+            <div class="editor">
+                <textarea id="markdown-input" placeholder="Write your markdown here..."></textarea>
+            </div>
+            <div class="resizer" id="resizer"></div>
+            <div class="preview" id="preview"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

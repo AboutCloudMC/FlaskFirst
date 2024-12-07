@@ -1,0 +1,500 @@
+:root {
+    --background-color: #1e1e1e;
+    --editor-background: #252526;
+    --sidebar-background: #252526;
+    --text-color: #d4d4d4;
+    --border-color: #3c3c3c;
+    --hover-color: #2a2d2e;
+    --active-color: #37373d;
+    --accent-color: #0e639c;
+    --error-color: #f48771;
+    --success-color: #89d185;
+    --scrollbar-thumb: #424242;
+    --scrollbar-track: #1e1e1e;
+    --sidebar-width: 48px;
+    --header-height: 40px;
+    --toolbar-height: 40px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: var(--sidebar-background);
+    width: var(--sidebar-width);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid var(--border-color);
+    z-index: 10;
+}
+
+.sidebar-icon {
+    width: var(--sidebar-width);
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sidebar-icon:hover {
+    background-color: var(--hover-color);
+}
+
+.sidebar-icon.active {
+    border-left: 2px solid var(--accent-color);
+    background-color: var(--active-color);
+}
+
+/* File List Styles */
+.file-list {
+    position: fixed;
+    left: var(--sidebar-width);
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: var(--sidebar-background);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    display: none;
+    z-index: 5;
+}
+
+.file-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.file-list::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+.file-list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 5px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.file-item:hover {
+    background-color: var(--hover-color);
+}
+
+.file-item.active {
+    background-color: var(--active-color);
+}
+
+.file-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.file-item:hover .file-actions {
+    opacity: 1;
+}
+
+.file-action {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.file-action:hover {
+    background-color: var(--active-color);
+}
+
+/* Folder Styles */
+.folder-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.folder-content {
+    margin-left: 20px;
+}
+
+/* Main Container Styles */
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s;
+}
+
+/* Header Styles */
+.header {
+    height: var(--header-height);
+    background-color: var(--sidebar-background);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--border-color);
+    justify-content: space-between;
+}
+
+.header h1 {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+#current-file {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Toolbar Styles */
+.toolbar {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: var(--editor-background);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.toolbar-button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.toolbar-button:hover {
+    background-color: var(--hover-color);
+}
+
+.toolbar-button i {
+    margin-right: 4px;
+}
+
+/* Container Styles */
+.container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.editor {
+    flex: 1;
+    min-width: 200px;
+    background-color: var(--editor-background);
+    position: relative;
+}
+
+#markdown-input {
+    width: 100%;
+    height: 100%;
+    background-color: var(--editor-background);
+    color: var(--text-color);
+    border: none;
+    resize: none;
+    padding: 20px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    outline: none;
+}
+
+.resizer {
+    width: 4px;
+    background-color: var(--border-color);
+    cursor: col-resize;
+    transition: background-color 0.2s;
+}
+
+.resizer:hover,
+.resizer.active {
+    background-color: var(--accent-color);
+}
+
+.preview {
+    flex: 1;
+    min-width: 200px;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: var(--editor-background);
+}
+
+/* Preview Markdown Styles */
+#preview {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#preview h1,
+#preview h2,
+#preview h3,
+#preview h4,
+#preview h5,
+#preview h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+#preview h1 {
+    font-size: 2em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.3em;
+}
+
+#preview h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.3em;
+}
+
+#preview h3 {
+    font-size: 1.25em;
+}
+
+#preview h4 {
+    font-size: 1em;
+}
+
+#preview h5 {
+    font-size: 0.875em;
+}
+
+#preview h6 {
+    font-size: 0.85em;
+    color: #8b949e;
+}
+
+#preview p {
+    margin-bottom: 16px;
+}
+
+#preview a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+
+#preview a:hover {
+    text-decoration: underline;
+}
+
+#preview img {
+    max-width: 100%;
+    height: auto;
+}
+
+#preview code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    padding: 0.2em 0.4em;
+    background-color: rgba(110, 118, 129, 0.4);
+    border-radius: 6px;
+    font-size: 85%;
+}
+
+#preview pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #161b22;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+#preview pre code {
+    padding: 0;
+    background-color: transparent;
+    white-space: pre;
+    border: 0;
+}
+
+#preview ul,
+#preview ol {
+    margin-bottom: 16px;
+    padding-left: 2em;
+}
+
+#preview li {
+    margin-bottom: 4px;
+}
+
+#preview blockquote {
+    padding: 0 1em;
+    color: #8b949e;
+    border-left: 0.25em solid #30363d;
+    margin-bottom: 16px;
+}
+
+#preview hr {
+    height: 0.25em;
+    padding: 0;
+    margin: 24px 0;
+    background-color: #30363d;
+    border: 0;
+}
+
+#preview table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    margin-bottom: 16px;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+#preview table th {
+    font-weight: 600;
+}
+
+#preview table th,
+#preview table td {
+    padding: 6px 13px;
+    border: 1px solid #30363d;
+}
+
+#preview table tr {
+    background-color: #0d1117;
+    border-top: 1px solid #30363d;
+}
+
+#preview table tr:nth-child(2n) {
+    background-color: #161b22;
+}
+
+/* Error Messages */
+.error {
+    color: var(--error-color);
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid var(--error-color);
+    border-radius: 4px;
+}
+
+/* Success Messages */
+.success {
+    color: var(--success-color);
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid var(--success-color);
+    border-radius: 4px;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color);
+}
+
+/* Hide scrollbar for editor while keeping functionality */
+#markdown-input {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none !important; /* Force disable resize */
+    outline: none;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: var(--editor-background);
+    color: var(--text-color);
+    padding: 1rem;
+}
+
+#markdown-input::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: var(--editor-background);
+    color: var(--text-color);
+    padding: 1rem;
+}
+
+#preview {
+    padding: 1.5rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+#preview h1, #preview h2, #preview h3 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: var(--text-color);
+}
+
+#preview p {
+    margin-bottom: 1em;
+}
+
+#preview code {
+    background-color: var(--border-color);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+#preview pre code {
+    display: block;
+    padding: 1em;
+    overflow-x: auto;
+    line-height: 1.4;
+}
